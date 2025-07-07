@@ -1,0 +1,60 @@
+{
+  "templates": [
+    {
+      "name": "Nginx Web Server",
+      "description": "Lekki serwer HTTP i reverse proxy",
+      "content": "version: '3'\nservices:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"80:80\"\n    volumes:\n      - ./html:/usr/share/nginx/html\n    restart: unless-stopped",
+      "category": "Web",
+      "icon": "mdi:nginx"
+    },
+    {
+      "name": "MySQL Database",
+      "description": "Popularna baza danych relacyjna",
+      "content": "version: '3'\nservices:\n  db:\n    image: mysql:8.0\n    environment:\n      MYSQL_ROOT_PASSWORD: example\n      MYSQL_DATABASE: mydb\n      MYSQL_USER: user\n      MYSQL_PASSWORD: password\n    volumes:\n      - db_data:/var/lib/mysql\n    ports:\n      - \"3306:3306\"\n    restart: always\n\nvolumes:\n  db_data:",
+      "category": "Database",
+      "icon": "mdi:database"
+    },
+    {
+      "name": "WordPress with MySQL",
+      "description": "Kompletna instalacja WordPress z bazą danych",
+      "content": "version: '3'\nservices:\n  db:\n    image: mysql:5.7\n    volumes:\n      - db_data:/var/lib/mysql\n    environment:\n      MYSQL_ROOT_PASSWORD: example_root_password\n      MYSQL_DATABASE: wordpress\n      MYSQL_USER: wordpress\n      MYSQL_PASSWORD: example_password\n\n  wordpress:\n    depends_on:\n      - db\n    image: wordpress:latest\n    ports:\n      - \"8000:80\"\n    environment:\n      WORDPRESS_DB_HOST: db:3306\n      WORDPRESS_DB_USER: wordpress\n      WORDPRESS_DB_PASSWORD: example_password\n      WORDPRESS_DB_NAME: wordpress\n\nvolumes:\n  db_data:",
+      "category": "CMS",
+      "icon": "mdi:wordpress"
+    },
+    {
+      "name": "PostgreSQL",
+      "description": "Zaawansowana baza danych open-source",
+      "content": "version: '3'\nservices:\n  postgres:\n    image: postgres:13\n    environment:\n      POSTGRES_PASSWORD: example_password\n      POSTGRES_USER: example_user\n      POSTGRES_DB: example_db\n    ports:\n      - \"5432:5432\"\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n\nvolumes:\n  postgres_data:",
+      "category": "Database",
+      "icon": "mdi:database"
+    },
+    {
+      "name": "Portainer CE",
+      "description": "Interfejs webowy do zarządzania Dockerem",
+      "content": "version: '3'\nservices:\n  portainer:\n    image: portainer/portainer-ce:latest\n    ports:\n      - \"9000:9000\"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n      - portainer_data:/data\n    restart: always\n\nvolumes:\n  portainer_data:",
+      "category": "Management",
+      "icon": "mdi:docker"
+    },
+    {
+      "name": "Redis",
+      "description": "Serwer cache i baza danych key-value",
+      "content": "version: '3'\nservices:\n  redis:\n    image: redis:alpine\n    ports:\n      - \"6379:6379\"\n    volumes:\n      - redis_data:/data\n    restart: always\n\nvolumes:\n  redis_data:",
+      "category": "Database",
+      "icon": "mdi:database"
+    },
+    {
+      "name": "Grafana",
+      "description": "Platforma do wizualizacji danych",
+      "content": "version: '3'\nservices:\n  grafana:\n    image: grafana/grafana:latest\n    ports:\n      - \"3000:3000\"\n    volumes:\n      - grafana_data:/var/lib/grafana\n    restart: unless-stopped\n\nvolumes:\n  grafana_data:",
+      "category": "Monitoring",
+      "icon": "mdi:chart-areaspline"
+    },
+    {
+      "name": "Jupyter Notebook",
+      "description": "Interaktywne środowisko do analizy danych",
+      "content": "version: '3'\nservices:\n  jupyter:\n    image: jupyter/datascience-notebook:latest\n    ports:\n      - \"8888:8888\"\n    volumes:\n      - ./notebooks:/home/jovyan/work\n    environment:\n      - JUPYTER_TOKEN=mysecretpassword\n    restart: unless-stopped",
+      "category": "Development",
+      "icon": "mdi:notebook"
+    }
+  ]
+}
