@@ -55,6 +55,132 @@
       "content": "version: '3'\nservices:\n  jupyter:\n    image: jupyter/datascience-notebook:latest\n    ports:\n      - \"8888:8888\"\n    volumes:\n      - ./notebooks:/home/jovyan/work\n    environment:\n      - JUPYTER_TOKEN=mysecretpassword\n    restart: unless-stopped",
       "category": "Development",
       "icon": "mdi:notebook"
+    },
+    {
+      "name": "MongoDB",
+      "description": "Baza danych NoSQL",
+      "content": "version: '3'\nservices:\n  mongodb:\n    image: mongo:latest\n    ports:\n      - \"27017:27017\"\n    volumes:\n      - mongodb_data:/data/db\n    environment:\n      MONGO_INITDB_ROOT_USERNAME: root\n      MONGO_INITDB_ROOT_PASSWORD: example\n    restart: always\n\nvolumes:\n  mongodb_data:",
+      "category": "Database",
+      "icon": "mdi:database"
+    },
+    {
+      "name": "Nextcloud",
+      "description": "Platforma do przechowywania plików w chmurze",
+      "content": "version: '3'\nservices:\n  nextcloud:\n    image: nextcloud:latest\n    ports:\n      - \"8080:80\"\n    volumes:\n      - nextcloud_data:/var/www/html\n    restart: unless-stopped\n\nvolumes:\n  nextcloud_data:",
+      "category": "Productivity",
+      "icon": "mdi:cloud"
+    },
+    {
+      "name": "Traefik",
+      "description": "Nowoczesny reverse proxy",
+      "content": "version: '3'\nservices:\n  traefik:\n    image: traefik:latest\n    ports:\n      - \"80:80\"\n      - \"443:443\"\n      - \"8080:8080\"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n      - ./traefik.toml:/etc/traefik/traefik.toml\n    restart: always",
+      "category": "Networking",
+      "icon": "mdi:network"
+    },
+    {
+      "name": "Prometheus",
+      "description": "System monitorowania i alertowania",
+      "content": "version: '3'\nservices:\n  prometheus:\n    image: prom/prometheus:latest\n    ports:\n      - \"9090:9090\"\n    volumes:\n      - ./prometheus.yml:/etc/prometheus/prometheus.yml\n    restart: always",
+      "category": "Monitoring",
+      "icon": "mdi:chart-line"
+    },
+    {
+      "name": "Elasticsearch + Kibana",
+      "description": "Platforma do wyszukiwania i analizy danych",
+      "content": "version: '3'\nservices:\n  elasticsearch:\n    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0\n    environment:\n      - discovery.type=single-node\n    volumes:\n      - es_data:/usr/share/elasticsearch/data\n    ports:\n      - \"9200:9200\"\n\n  kibana:\n    image: docker.elastic.co/kibana/kibana:7.17.0\n    ports:\n      - \"5601:5601\"\n    depends_on:\n      - elasticsearch\n\nvolumes:\n  es_data:",
+      "category": "Analytics",
+      "icon": "mdi:file-search"
+    },
+    {
+      "name": "GitLab CE",
+      "description": "Platforma DevOps",
+      "content": "version: '3'\nservices:\n  gitlab:\n    image: gitlab/gitlab-ce:latest\n    ports:\n      - \"80:80\"\n      - \"443:443\"\n      - \"22:22\"\n    volumes:\n      - gitlab_config:/etc/gitlab\n      - gitlab_logs:/var/log/gitlab\n      - gitlab_data:/var/opt/gitlab\n    restart: always\n\nvolumes:\n  gitlab_config:\n  gitlab_logs:\n  gitlab_data:",
+      "category": "Development",
+      "icon": "mdi:git"
+    },
+    {
+      "name": "MariaDB",
+      "description": "Kompatybilna z MySQL baza danych",
+      "content": "version: '3'\nservices:\n  mariadb:\n    image: mariadb:latest\n    environment:\n      MYSQL_ROOT_PASSWORD: example\n      MYSQL_DATABASE: mydb\n      MYSQL_USER: user\n      MYSQL_PASSWORD: password\n    ports:\n      - \"3306:3306\"\n    volumes:\n      - mariadb_data:/var/lib/mysql\n    restart: always\n\nvolumes:\n  mariadb_data:",
+      "category": "Database",
+      "icon": "mdi:database"
+    },
+    {
+      "name": "Adminer",
+      "description": "Lekki interfejs webowy do zarządzania bazami danych",
+      "content": "version: '3'\nservices:\n  adminer:\n    image: adminer:latest\n    ports:\n      - \"8080:8080\"\n    restart: always",
+      "category": "Database",
+      "icon": "mdi:database-eye"
+    },
+    {
+      "name": "phpMyAdmin + MySQL",
+      "description": "Interfejs webowy dla MySQL",
+      "content": "version: '3'\nservices:\n  db:\n    image: mysql:8.0\n    environment:\n      MYSQL_ROOT_PASSWORD: example\n    volumes:\n      - db_data:/var/lib/mysql\n\n  phpmyadmin:\n    image: phpmyadmin/phpmyadmin\n    ports:\n      - \"8000:80\"\n    environment:\n      PMA_HOST: db\n    depends_on:\n      - db\n    restart: always\n\nvolumes:\n  db_data:",
+      "category": "Database",
+      "icon": "mdi:database-search"
+    },
+    {
+      "name": "RabbitMQ",
+      "description": "Broker wiadomości",
+      "content": "version: '3'\nservices:\n  rabbitmq:\n    image: rabbitmq:management\n    ports:\n      - \"5672:5672\"\n      - \"15672:15672\"\n    volumes:\n      - rabbitmq_data:/var/lib/rabbitmq\n    restart: always\n\nvolumes:\n  rabbitmq_data:",
+      "category": "Messaging",
+      "icon": "mdi:message-processing"
+    },
+    {
+      "name": "MinIO",
+      "description": "Obiektowy serwer plików kompatybilny z S3",
+      "content": "version: '3'\nservices:\n  minio:\n    image: minio/minio\n    ports:\n      - \"9000:9000\"\n      - \"9001:9001\"\n    volumes:\n      - minio_data:/data\n    environment:\n      MINIO_ROOT_USER: minioadmin\n      MINIO_ROOT_PASSWORD: minioadmin\n    command: server /data --console-address \":9001\"\n    restart: always\n\nvolumes:\n  minio_data:",
+      "category": "Storage",
+      "icon": "mdi:file-cloud"
+    },
+    {
+      "name": "Vaultwarden",
+      "description": "Alternatywa dla Bitwarden (menadżer haseł)",
+      "content": "version: '3'\nservices:\n  vaultwarden:\n    image: vaultwarden/server:latest\n    ports:\n      - \"8000:80\"\n    volumes:\n      - vaultwarden_data:/data\n    restart: always\n\nvolumes:\n  vaultwarden_data:",
+      "category": "Security",
+      "icon": "mdi:key-chain"
+    },
+    {
+      "name": "Home Assistant",
+      "description": "System automatyki domowej",
+      "content": "version: '3'\nservices:\n  homeassistant:\n    image: ghcr.io/home-assistant/home-assistant:stable\n    volumes:\n      - homeassistant_config:/config\n    ports:\n      - \"8123:8123\"\n    restart: always\n\nvolumes:\n  homeassistant_config:",
+      "category": "IoT",
+      "icon": "mdi:home-automation"
+    },
+    {
+      "name": "Plex Media Server",
+      "description": "Serwer multimedialny",
+      "content": "version: '3'\nservices:\n  plex:\n    image: plexinc/pms-docker\n    ports:\n      - \"32400:32400\"\n    volumes:\n      - plex_config:/config\n      - plex_transcode:/transcode\n      - /path/to/media:/data\n    restart: always\n\nvolumes:\n  plex_config:\n  plex_transcode:",
+      "category": "Media",
+      "icon": "mdi:plex"
+    },
+    {
+      "name": "WireGuard VPN",
+      "description": "Nowoczesna, bezpieczna sieć VPN",
+      "content": "version: '3'\nservices:\n  wireguard:\n    image: linuxserver/wireguard\n    cap_add:\n      - NET_ADMIN\n      - SYS_MODULE\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    volumes:\n      - wireguard_config:/config\n      - /lib/modules:/lib/modules\n    ports:\n      - \"51820:51820/udp\"\n    sysctls:\n      - net.ipv4.conf.all.src_valid_mark=1\n    restart: always\n\nvolumes:\n  wireguard_config:",
+      "category": "Networking",
+      "icon": "mdi:lock"
+    },
+    {
+      "name": "Matomo Analytics",
+      "description": "Alternatywa dla Google Analytics",
+      "content": "version: '3'\nservices:\n  matomo:\n    image: matomo:apache\n    ports:\n      - \"8000:80\"\n    volumes:\n      - matomo_data:/var/www/html\n    restart: always\n\n  mariadb:\n    image: mariadb:10.6\n    environment:\n      MYSQL_ROOT_PASSWORD: example\n      MYSQL_DATABASE: matomo\n    volumes:\n      - mariadb_data:/var/lib/mysql\n    restart: always\n\nvolumes:\n  matomo_data:\n  mariadb_data:",
+      "category": "Analytics",
+      "icon": "mdi:chart-bar"
+    },
+    {
+      "name": "Gitea",
+      "description": "Lekki serwer Git",
+      "content": "version: '3'\nservices:\n  gitea:\n    image: gitea/gitea:latest\n    ports:\n      - \"3000:3000\"\n      - \"2222:22\"\n    volumes:\n      - gitea_data:/data\n    restart: always\n\nvolumes:\n  gitea_data:",
+      "category": "Development",
+      "icon": "mdi:git"
+    },
+    {
+      "name": "Zabbix",
+      "description": "System monitorowania sieci",
+      "content": "version: '3'\nservices:\n  zabbix-server:\n    image: zabbix/zabbix-server-mysql:latest\n    ports:\n      - \"10051:10051\"\n    environment:\n      DB_SERVER_HOST: zabbix-mysql\n      MYSQL_USER: zabbix\n      MYSQL_PASSWORD: zabbix\n      MYSQL_DATABASE: zabbix\n    depends_on:\n      - zabbix-mysql\n    restart: always\n\n  zabbix-web:\n    image: zabbix/zabbix-web-nginx-mysql:latest\n    ports:\n      - \"8000:8080\"\n    environment:\n      DB_SERVER_HOST: zabbix-mysql\n      MYSQL_USER: zabbix\n      MYSQL_PASSWORD: zabbix\n      MYSQL_DATABASE: zabbix\n      ZBX_SERVER_HOST: zabbix-server\n    depends_on:\n      - zabbix-server\n    restart: always\n\n  zabbix-mysql:\n    image: mysql:8.0\n    environment:\n      MYSQL_DATABASE: zabbix\n      MYSQL_USER: zabbix\n      MYSQL_PASSWORD: zabbix\n      MYSQL_ROOT_PASSWORD: example\n    volumes:\n      - zabbix_mysql:/var/lib/mysql\n    restart: always\n\nvolumes:\n  zabbix_mysql:",
+      "category": "Monitoring",
+      "icon": "mdi:monitor-eye"
     }
   ]
 }
