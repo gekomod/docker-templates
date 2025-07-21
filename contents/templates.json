@@ -181,6 +181,114 @@
       "content": "version: '3'\nservices:\n  zabbix-server:\n    image: zabbix/zabbix-server-mysql:latest\n    ports:\n      - \"10051:10051\"\n    environment:\n      DB_SERVER_HOST: zabbix-mysql\n      MYSQL_USER: zabbix\n      MYSQL_PASSWORD: zabbix\n      MYSQL_DATABASE: zabbix\n    depends_on:\n      - zabbix-mysql\n    restart: always\n\n  zabbix-web:\n    image: zabbix/zabbix-web-nginx-mysql:latest\n    ports:\n      - \"8000:8080\"\n    environment:\n      DB_SERVER_HOST: zabbix-mysql\n      MYSQL_USER: zabbix\n      MYSQL_PASSWORD: zabbix\n      MYSQL_DATABASE: zabbix\n      ZBX_SERVER_HOST: zabbix-server\n    depends_on:\n      - zabbix-server\n    restart: always\n\n  zabbix-mysql:\n    image: mysql:8.0\n    environment:\n      MYSQL_DATABASE: zabbix\n      MYSQL_USER: zabbix\n      MYSQL_PASSWORD: zabbix\n      MYSQL_ROOT_PASSWORD: example\n    volumes:\n      - zabbix_mysql:/var/lib/mysql\n    restart: always\n\nvolumes:\n  zabbix_mysql:",
       "category": "Monitoring",
       "icon": "mdi:monitor-eye"
+    },
+    {
+      "name": "emby-unlocked",
+      "description": "Emby Media Server with premium features unlocked",
+      "repository": {
+        "url": "https://github.com/gekomod/emby-unlocked-docker",
+        "icon": "https://emby.media/resources/logoicon.png"
+      },
+      "image": "gekomod/emby-unlocked:latest"
+    },
+    {
+      "name": "jellyfin",
+      "description": "The Free Software Media System",
+      "repository": {
+        "url": "https://github.com/jellyfin/jellyfin",
+        "icon": "https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/icon-transparent.svg"
+      },
+      "image": "jellyfin/jellyfin:latest"
+    },
+    {
+      "name": "sonarr-radarr-prowlarr",
+      "description": "Meta package for Sonarr, Radarr and Prowlarr",
+      "repository": {
+        "url": "https://github.com/gekomod/arr-stack",
+        "icon": "https://raw.githubusercontent.com/Sonarr/Sonarr/develop/Logo/256.png"
+      },
+      "image": "gekomod/arr-stack:latest"
+    },
+    {
+      "name": "qbittorrentvpn",
+      "description": "qBittorrent with VPN support",
+      "repository": {
+        "url": "https://github.com/gekomod/qbittorrentvpn",
+        "icon": "https://upload.wikimedia.org/wikipedia/commons/6/66/New_qBittorrent_Logo.svg"
+      },
+      "image": "gekomod/qbittorrentvpn:latest"
+    },
+    {
+      "name": "plex-meta-manager",
+      "description": "Python script to update metadata and automatically build collections",
+      "repository": {
+        "url": "https://github.com/meisnate12/Plex-Meta-Manager",
+        "icon": "https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager/master/.github/icon.png"
+      },
+      "image": "meisnate12/plex-meta-manager:latest"
+    },
+    {
+      "name": "overseerr",
+      "description": "Request management and media discovery tool",
+      "repository": {
+        "url": "https://github.com/sct/overseerr",
+        "icon": "https://overseerr.dev/images/logo.svg"
+      },
+      "image": "sctx/overseerr:latest"
+    },
+    {
+      "name": "audiobookshelf",
+      "description": "Self-hosted audiobook and podcast server",
+      "repository": {
+        "url": "https://github.com/advplyr/audiobookshelf",
+        "icon": "https://raw.githubusercontent.com/advplyr/audiobookshelf/master/logo.png"
+      },
+      "image": "advplyr/audiobookshelf:latest"
+    },
+    {
+      "name": "calibre-web",
+      "description": "Web app for browsing, reading and downloading eBooks",
+      "repository": {
+        "url": "https://github.com/janeczku/calibre-web",
+        "icon": "https://raw.githubusercontent.com/janeczku/calibre-web/master/resources/icons/logo.svg"
+      },
+      "image": "janeczku/calibre-web:latest"
+    },
+    {
+      "name": "nextcloud",
+      "description": "A safe home for all your data",
+      "repository": {
+        "url": "https://github.com/nextcloud/docker",
+        "icon": "https://upload.wikimedia.org/wikipedia/commons/6/60/Nextcloud_Logo.svg"
+      },
+      "image": "nextcloud:latest"
+    },
+    {
+      "name": "home-assistant",
+      "description": "Open source home automation platform",
+      "repository": {
+        "url": "https://github.com/home-assistant/core",
+        "icon": "https://brands.home-assistant.io/_/homeassistant/icon.png"
+      },
+      "image": "homeassistant/home-assistant:latest"
+    },
+    {
+      "name": "vaultwarden",
+      "description": "Unofficial Bitwarden compatible server",
+      "repository": {
+        "url": "https://github.com/dani-garcia/vaultwarden",
+        "icon": "https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/resources/static/images/vaultwarden-icon.png"
+      },
+      "image": "vaultwarden/server:latest"
+    },
+    {
+      "name": "photoprism",
+      "description": "AI-Powered Photos App",
+      "repository": {
+        "url": "https://github.com/photoprism/photoprism",
+        "icon": "https://raw.githubusercontent.com/photoprism/photoprism/develop/frontend/public/static/logo.svg"
+      },
+      "image": "photoprism/photoprism:latest"
     }
   ]
 }
