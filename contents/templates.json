@@ -223,6 +223,76 @@
       "content": "version: '3'\nservices:\n  audiobookshelf:\n    image: advplyr/audiobookshelf:latest\n    ports:\n      - \"13378:80\"\n    volumes:\n      - abs_config:/config\n      - /path/to/audiobooks:/audiobooks\n      - /path/to/podcasts:/podcasts\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  abs_config:",
       "category": "Media",
       "icon": "mdi:book-music"
+    },
+    {
+      "name": "Code-Server",
+      "description": "VS Code działające w przeglądarce",
+      "content": "version: '3'\nservices:\n  code-server:\n    image: codercom/code-server:latest\n    container_name: code-server\n    ports:\n      - \"8443:8080\"\n    volumes:\n      - code_server:/home/coder/.local\n      - /path/to/projects:/home/coder/projects\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n      - PASSWORD=yourpassword\n    restart: unless-stopped\n\nvolumes:\n  code_server:",
+      "category": "Development",
+      "icon": "mdi:visual-studio-code"
+    },
+    {
+      "name": "Minecraft Server",
+      "description": "Serwer gry Minecraft Java Edition",
+      "content": "version: '3'\nservices:\n  minecraft:\n    image: itzg/minecraft-server:latest\n    container_name: minecraft\n    ports:\n      - \"25565:25565\"\n    volumes:\n      - mc_data:/data\n    environment:\n      - EULA=TRUE\n      - MEMORY=4G\n      - VERSION=LATEST\n    restart: unless-stopped\n\nvolumes:\n  mc_data:",
+      "category": "Game",
+      "icon": "mdi:minecraft"
+    },
+    {
+      "name": "Gitea",
+      "description": "Samodzielny serwer Git",
+      "content": "version: '3'\nservices:\n  gitea:\n    image: gitea/gitea:latest\n    container_name: gitea\n    ports:\n      - \"3000:3000\"\n      - \"2222:22\"\n    volumes:\n      - gitea_data:/data\n      - /etc/timezone:/etc/timezone:ro\n    environment:\n      - USER_UID=1000\n      - USER_GID=1000\n    restart: unless-stopped\n\nvolumes:\n  gitea_data:",
+      "category": "Development",
+      "icon": "mdi:git"
+    },
+    {
+      "name": "LibreSpeed",
+      "description": "Test prędkości łącza",
+      "content": "version: '3'\nservices:\n  librespeed:\n    image: linuxserver/librespeed:latest\n    container_name: librespeed\n    ports:\n      - \"8081:80\"\n    environment:\n      - PUID=1000\n      - PGID=1000\n    restart: unless-stopped",
+      "category": "Network",
+      "icon": "mdi:speedometer"
+    },
+    {
+      "name": "Mealie",
+      "description": "Menadżer przepisów kulinarnych",
+      "content": "version: '3'\nservices:\n  mealie:\n    image: hkotel/mealie:latest\n    container_name: mealie\n    ports:\n      - \"9925:80\"\n    volumes:\n      - mealie_data:/app/data\n    environment:\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  mealie_data:",
+      "category": "Home",
+      "icon": "mdi:food"
+    },
+    {
+      "name": "FileBrowser",
+      "description": "Przeglądarka plików z interfejsem webowym",
+      "content": "version: '3'\nservices:\n  filebrowser:\n    image: filebrowser/filebrowser:latest\n    container_name: filebrowser\n    ports:\n      - \"8082:80\"\n    volumes:\n      - /path/to/files:/srv\n      - fb_config:/config\n    restart: unless-stopped\n\nvolumes:\n  fb_config:",
+      "category": "Tools",
+      "icon": "mdi:file-tree"
+    },
+    {
+      "name": "Heimdall",
+      "description": "Pulpit startowy dla usług self-hosted",
+      "content": "version: '3'\nservices:\n  heimdall:\n    image: linuxserver/heimdall:latest\n    container_name: heimdall\n    ports:\n      - \"8083:80\"\n      - \"8443:443\"\n    volumes:\n      - heimdall_config:/config\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  heimdall_config:",
+      "category": "Tools",
+      "icon": "mdi:home-assistant"
+    },
+    {
+      "name": "Guacamole",
+      "description": "Klient RDP/VNC/SSH w przeglądarce",
+      "content": "version: '3'\nservices:\n  guacamole:\n    image: guacamole/guacamole:latest\n    container_name: guacamole\n    ports:\n      - \"8084:8080\"\n    volumes:\n      - guac_config:/config\n    environment:\n      - GUACD_HOSTNAME=guacd\n    depends_on:\n      - guacd\n    restart: unless-stopped\n\n  guacd:\n    image: guacamole/guacd:latest\n    container_name: guacd\n    restart: unless-stopped\n\nvolumes:\n  guac_config:",
+      "category": "Remote",
+      "icon": "mdi:remote-desktop"
+    },
+    {
+      "name": "Stirling-PDF",
+      "description": "Narzędzia do manipulacji plikami PDF",
+      "content": "version: '3'\nservices:\n  stirling-pdf:\n    image: frooodle/s-pdf:latest\n    container_name: stirling-pdf\n    ports:\n      - \"8085:8080\"\n    volumes:\n      - spdf_data:/configs\n    restart: unless-stopped\n\nvolumes:\n  spdf_data:",
+      "category": "Tools",
+      "icon": "mdi:file-pdf-box"
+    },
+    {
+      "name": "CyberChef",
+      "description": "Zaawansowane narzędzie do analizy danych",
+      "content": "version: '3'\nservices:\n  cyberchef:\n    image: mpepping/cyberchef:latest\n    container_name: cyberchef\n    ports:\n      - \"8086:8000\"\n    restart: unless-stopped",
+      "category": "Security",
+      "icon": "mdi:security"
     }
   ]
 }
