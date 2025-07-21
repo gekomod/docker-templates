@@ -183,112 +183,46 @@
       "icon": "mdi:monitor-eye"
     },
     {
-      "name": "emby-unlocked",
-      "description": "Emby Media Server with premium features unlocked",
-      "repository": {
-        "url": "https://github.com/gekomod/emby-unlocked-docker",
-        "icon": "https://emby.media/resources/logoicon.png"
-      },
-      "image": "gekomod/emby-unlocked:latest"
+      "name": "Emby Unlocked",
+      "description": "Serwer multimedialny z odblokowanymi funkcjami premium",
+      "content": "version: '3'\nservices:\n  emby:\n    image: gekomod/emby-unlocked:latest\n    ports:\n      - \"8096:8096\"\n      - \"8920:8920\"\n    volumes:\n      - emby_config:/config\n      - /path/to/media:/media\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  emby_config:",
+      "category": "Media",
+      "icon": "mdi:emby"
     },
     {
-      "name": "jellyfin",
-      "description": "The Free Software Media System",
-      "repository": {
-        "url": "https://github.com/jellyfin/jellyfin",
-        "icon": "https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/icon-transparent.svg"
-      },
-      "image": "jellyfin/jellyfin:latest"
+      "name": "Jellyfin",
+      "description": "Darmowy serwer multimedialny",
+      "content": "version: '3'\nservices:\n  jellyfin:\n    image: jellyfin/jellyfin:latest\n    ports:\n      - \"8096:8096\"\n      - \"8920:8920\"\n    volumes:\n      - jellyfin_config:/config\n      - /path/to/media:/media\n      - /path/to/cache:/cache\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  jellyfin_config:",
+      "category": "Media",
+      "icon": "mdi:jellyfin"
     },
     {
-      "name": "sonarr-radarr-prowlarr",
-      "description": "Meta package for Sonarr, Radarr and Prowlarr",
-      "repository": {
-        "url": "https://github.com/gekomod/arr-stack",
-        "icon": "https://raw.githubusercontent.com/Sonarr/Sonarr/develop/Logo/256.png"
-      },
-      "image": "gekomod/arr-stack:latest"
+      "name": "Sonarr + Radarr + Prowlarr",
+      "description": "Kompletne rozwiązanie do zarządzania mediami",
+      "content": "version: '3'\nservices:\n  sonarr:\n    image: linuxserver/sonarr:latest\n    ports:\n      - \"8989:8989\"\n    volumes:\n      - sonarr_config:/config\n      - /path/to/media:/media\n      - /path/to/downloads:/downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\n  radarr:\n    image: linuxserver/radarr:latest\n    ports:\n      - \"7878:7878\"\n    volumes:\n      - radarr_config:/config\n      - /path/to/media:/media\n      - /path/to/downloads:/downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\n  prowlarr:\n    image: linuxserver/prowlarr:latest\n    ports:\n      - \"9696:9696\"\n    volumes:\n      - prowlarr_config:/config\n      - /path/to/downloads:/downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  sonarr_config:\n  radarr_config:\n  prowlarr_config:",
+      "category": "Download",
+      "icon": "mdi:download"
     },
     {
-      "name": "qbittorrentvpn",
-      "description": "qBittorrent with VPN support",
-      "repository": {
-        "url": "https://github.com/gekomod/qbittorrentvpn",
-        "icon": "https://upload.wikimedia.org/wikipedia/commons/6/66/New_qBittorrent_Logo.svg"
-      },
-      "image": "gekomod/qbittorrentvpn:latest"
+      "name": "qBittorrent + VPN",
+      "description": "Klient torrent z obsługą VPN",
+      "content": "version: '3'\nservices:\n  qbittorrent:\n    image: gekomod/qbittorrentvpn:latest\n    ports:\n      - \"8080:8080\"\n      - \"6881:6881\"\n      - \"6881:6881/udp\"\n    volumes:\n      - qbit_config:/config\n      - /path/to/downloads:/downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n      - VPN_ENABLED=yes\n      - VPN_TYPE=openvpn\n      - VPN_USER=your_username\n      - VPN_PASS=your_password\n    cap_add:\n      - NET_ADMIN\n    restart: unless-stopped\n\nvolumes:\n  qbit_config:",
+      "category": "Download",
+      "icon": "mdi:download-network"
     },
     {
-      "name": "plex-meta-manager",
-      "description": "Python script to update metadata and automatically build collections",
-      "repository": {
-        "url": "https://github.com/meisnate12/Plex-Meta-Manager",
-        "icon": "https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager/master/.github/icon.png"
-      },
-      "image": "meisnate12/plex-meta-manager:latest"
+      "name": "Overseerr",
+      "description": "System zgłaszania i zarządzania mediami",
+      "content": "version: '3'\nservices:\n  overseerr:\n    image: sctx/overseerr:latest\n    ports:\n      - \"5055:5055\"\n    volumes:\n      - overseerr_config:/config\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  overseerr_config:",
+      "category": "Media",
+      "icon": "mdi:movie-search"
     },
     {
-      "name": "overseerr",
-      "description": "Request management and media discovery tool",
-      "repository": {
-        "url": "https://github.com/sct/overseerr",
-        "icon": "https://overseerr.dev/images/logo.svg"
-      },
-      "image": "sctx/overseerr:latest"
-    },
-    {
-      "name": "audiobookshelf",
-      "description": "Self-hosted audiobook and podcast server",
-      "repository": {
-        "url": "https://github.com/advplyr/audiobookshelf",
-        "icon": "https://raw.githubusercontent.com/advplyr/audiobookshelf/master/logo.png"
-      },
-      "image": "advplyr/audiobookshelf:latest"
-    },
-    {
-      "name": "calibre-web",
-      "description": "Web app for browsing, reading and downloading eBooks",
-      "repository": {
-        "url": "https://github.com/janeczku/calibre-web",
-        "icon": "https://raw.githubusercontent.com/janeczku/calibre-web/master/resources/icons/logo.svg"
-      },
-      "image": "janeczku/calibre-web:latest"
-    },
-    {
-      "name": "nextcloud",
-      "description": "A safe home for all your data",
-      "repository": {
-        "url": "https://github.com/nextcloud/docker",
-        "icon": "https://upload.wikimedia.org/wikipedia/commons/6/60/Nextcloud_Logo.svg"
-      },
-      "image": "nextcloud:latest"
-    },
-    {
-      "name": "home-assistant",
-      "description": "Open source home automation platform",
-      "repository": {
-        "url": "https://github.com/home-assistant/core",
-        "icon": "https://brands.home-assistant.io/_/homeassistant/icon.png"
-      },
-      "image": "homeassistant/home-assistant:latest"
-    },
-    {
-      "name": "vaultwarden",
-      "description": "Unofficial Bitwarden compatible server",
-      "repository": {
-        "url": "https://github.com/dani-garcia/vaultwarden",
-        "icon": "https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/resources/static/images/vaultwarden-icon.png"
-      },
-      "image": "vaultwarden/server:latest"
-    },
-    {
-      "name": "photoprism",
-      "description": "AI-Powered Photos App",
-      "repository": {
-        "url": "https://github.com/photoprism/photoprism",
-        "icon": "https://raw.githubusercontent.com/photoprism/photoprism/develop/frontend/public/static/logo.svg"
-      },
-      "image": "photoprism/photoprism:latest"
+      "name": "Audiobookshelf",
+      "description": "Serwer audiobooków i podcastów",
+      "content": "version: '3'\nservices:\n  audiobookshelf:\n    image: advplyr/audiobookshelf:latest\n    ports:\n      - \"13378:80\"\n    volumes:\n      - abs_config:/config\n      - /path/to/audiobooks:/audiobooks\n      - /path/to/podcasts:/podcasts\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  abs_config:",
+      "category": "Media",
+      "icon": "mdi:book-music"
     }
   ]
 }
