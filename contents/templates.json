@@ -293,6 +293,216 @@
       "content": "version: '3'\nservices:\n  cyberchef:\n    image: mpepping/cyberchef:latest\n    container_name: cyberchef\n    ports:\n      - \"8086:8000\"\n    restart: unless-stopped",
       "category": "Security",
       "icon": "mdi:security"
+    },
+        {
+      "name": "Uptime Kuma",
+      "description": "Monitorowanie dostępności usług",
+      "content": "version: '3'\nservices:\n  uptime-kuma:\n    image: louislam/uptime-kuma:latest\n    ports:\n      - \"3001:3001\"\n    volumes:\n      - uptime_kuma_data:/app/data\n    restart: always\n\nvolumes:\n  uptime_kuma_data:",
+      "category": "Monitoring",
+      "icon": "mdi:heart-pulse"
+    },
+    {
+      "name": "Navidrome",
+      "description": "Serwer muzyki streamingowej",
+      "content": "version: '3'\nservices:\n  navidrome:\n    image: deluan/navidrome:latest\n    ports:\n      - \"4533:4533\"\n    volumes:\n      - navidrome_data:/data\n      - /path/to/music:/music\n    environment:\n      - ND_SCANSCHEDULE=1h\n    restart: unless-stopped\n\nvolumes:\n  navidrome_data:",
+      "category": "Media",
+      "icon": "mdi:music-box"
+    },
+    {
+      "name": "Bitwarden RS",
+      "description": "Samodzielny menadżer haseł (oficjalna wersja)",
+      "content": "version: '3'\nservices:\n  bitwarden:\n    image: bitwardenrs/server:latest\n    ports:\n      - \"8001:80\"\n    volumes:\n      - bitwarden_data:/data\n    restart: always\n\nvolumes:\n  bitwarden_data:",
+      "category": "Security",
+      "icon": "mdi:shield-lock"
+    },
+    {
+      "name": "Pi-hole",
+      "description": "Blokowanie reklam na poziomie sieci",
+      "content": "version: '3'\nservices:\n  pihole:\n    image: pihole/pihole:latest\n    ports:\n      - \"53:53/tcp\"\n      - \"53:53/udp\"\n      - \"8087:80\"\n    volumes:\n      - pihole_data:/etc/pihole\n      - pihole_dnsmasq:/etc/dnsmasq.d\n    environment:\n      - TZ=Europe/Warsaw\n    restart: always\n\nvolumes:\n  pihole_data:\n  pihole_dnsmasq:",
+      "category": "Networking",
+      "icon": "mdi:network-off"
+    },
+    {
+      "name": "Authelia",
+      "description": "Uwierzytelnianie dwuskładnikowe dla usług",
+      "content": "version: '3'\nservices:\n  authelia:\n    image: authelia/authelia:latest\n    ports:\n      - \"9091:9091\"\n    volumes:\n      - authelia_config:/config\n    restart: always\n\nvolumes:\n  authelia_config:",
+      "category": "Security",
+      "icon": "mdi:two-factor-authentication"
+    },
+    {
+      "name": "Wiki.js",
+      "description": "Nowoczesna wiki oparta na Node.js",
+      "content": "version: '3'\nservices:\n  wikijs:\n    image: requarks/wiki:latest\n    ports:\n      - \"8002:3000\"\n    volumes:\n      - wikijs_data:/var/wiki\n    environment:\n      - DB_TYPE=sqlite\n    restart: unless-stopped\n\nvolumes:\n  wikijs_data:",
+      "category": "Productivity",
+      "icon": "mdi:book-open"
+    },
+    {
+      "name": "RustDesk Server",
+      "description": "Alternatywa dla TeamViewer",
+      "content": "version: '3'\nservices:\n  rustdesk:\n    image: rustdesk/rustdesk-server:latest\n    ports:\n      - \"21115:21115\"\n      - \"21116:21116\"\n      - \"21116:21116/udp\"\n      - \"21117:21117\"\n      - \"21118:21118\"\n      - \"21119:21119\"\n    restart: always",
+      "category": "Remote",
+      "icon": "mdi:remote-desktop"
+    },
+    {
+      "name": "Freshrss",
+      "description": "Czytnik RSS z interfejsem webowym",
+      "content": "version: '3'\nservices:\n  freshrss:\n    image: linuxserver/freshrss:latest\n    ports:\n      - \"8003:80\"\n    volumes:\n      - freshrss_data:/config\n    restart: unless-stopped\n\nvolumes:\n  freshrss_data:",
+      "category": "Productivity",
+      "icon": "mdi:rss"
+    },
+    {
+      "name": "Calibre-Web",
+      "description": "Przeglądarka biblioteki ebooków",
+      "content": "version: '3'\nservices:\n  calibre-web:\n    image: linuxserver/calibre-web:latest\n    ports:\n      - \"8004:8083\"\n    volumes:\n      - calibre_data:/config\n      - /path/to/books:/books\n    restart: unless-stopped\n\nvolumes:\n  calibre_data:",
+      "category": "Media",
+      "icon": "mdi:book-open-page-variant"
+    },
+    {
+      "name": "Tandoor Recipes",
+      "description": "Zaawansowany menadżer przepisów",
+      "content": "version: '3'\nservices:\n  tandoor:\n    image: vabene1111/recipes:latest\n    ports:\n      - \"8005:80\"\n    volumes:\n      - tandoor_data:/data\n    environment:\n      - SECRET_KEY=your_secret_key\n    restart: unless-stopped\n\nvolumes:\n  tandoor_data:",
+      "category": "Home",
+      "icon": "mdi:chef-hat"
+    },
+    {
+      "name": "Tube Archivist",
+      "description": "Archiwizacja kanałów YouTube",
+      "content": "version: '3'\nservices:\n  tubearchivist:\n    image: bbilly1/tubearchivist:latest\n    ports:\n      - \"8006:8000\"\n    volumes:\n      - ta_data:/data\n    restart: unless-stopped\n\nvolumes:\n  ta_data:",
+      "category": "Media",
+      "icon": "mdi:youtube"
+    },
+    {
+      "name": "Ghost",
+      "description": "Platforma blogowa",
+      "content": "version: '3'\nservices:\n  ghost:\n    image: ghost:latest\n    ports:\n      - \"8007:2368\"\n    volumes:\n      - ghost_data:/var/lib/ghost/content\n    environment:\n      - NODE_ENV=production\n    restart: unless-stopped\n\nvolumes:\n  ghost_data:",
+      "category": "CMS",
+      "icon": "mdi:ghost"
+    },
+    {
+      "name": "Trilium Notes",
+      "description": "Zaawansowana aplikacja do notatek",
+      "content": "version: '3'\nservices:\n  trilium:\n    image: zadam/trilium:latest\n    ports:\n      - \"8008:8080\"\n    volumes:\n      - trilium_data:/home/node/trilium-data\n    restart: unless-stopped\n\nvolumes:\n  trilium_data:",
+      "category": "Productivity",
+      "icon": "mdi:note-text"
+    },
+    {
+      "name": "BookStack",
+      "description": "Platforma do dokumentacji",
+      "content": "version: '3'\nservices:\n  bookstack:\n    image: linuxserver/bookstack:latest\n    ports:\n      - \"8009:80\"\n    volumes:\n      - bookstack_data:/config\n    environment:\n      - DB_HOST=bookstack_db\n      - DB_USER=bookstack\n      - DB_PASS=yourpassword\n      - DB_DATABASE=bookstack\n    depends_on:\n      - bookstack_db\n    restart: unless-stopped\n\n  bookstack_db:\n    image: linuxserver/mariadb:latest\n    volumes:\n      - bookstack_db_data:/config\n    environment:\n      - MYSQL_ROOT_PASSWORD=yourrootpassword\n      - MYSQL_DATABASE=bookstack\n      - MYSQL_USER=bookstack\n      - MYSQL_PASSWORD=yourpassword\n    restart: unless-stopped\n\nvolumes:\n  bookstack_data:\n  bookstack_db_data:",
+      "category": "Productivity",
+      "icon": "mdi:bookshelf"
+    },
+    {
+      "name": "Flame",
+      "description": "Minimalistyczny pulpit startowy",
+      "content": "version: '3'\nservices:\n  flame:\n    image: pawelmalak/flame:latest\n    ports:\n      - \"8010:5005\"\n    volumes:\n      - flame_data:/app/data\n    restart: unless-stopped\n\nvolumes:\n  flame_data:",
+      "category": "Tools",
+      "icon": "mdi:fire"
+    },
+    {
+      "name": "NocoDB",
+      "description": "Alternatywa dla Airtable",
+      "content": "version: '3'\nservices:\n  nocodb:\n    image: nocodb/nocodb:latest\n    ports:\n      - \"8011:8080\"\n    volumes:\n      - nocodb_data:/usr/app/data\n    restart: unless-stopped\n\nvolumes:\n  nocodb_data:",
+      "category": "Productivity",
+      "icon": "mdi:table"
+    },
+    {
+      "name": "Baserow",
+      "description": "Inna alternatywa dla Airtable",
+      "content": "version: '3'\nservices:\n  baserow:\n    image: baserow/baserow:latest\n    ports:\n      - \"8012:80\"\n    volumes:\n      - baserow_data:/baserow/data\n    restart: unless-stopped\n\nvolumes:\n  baserow_data:",
+      "category": "Productivity",
+      "icon": "mdi:table-large"
+    },
+    {
+      "name": "Appwrite",
+      "description": "Backend jako usługa",
+      "content": "version: '3'\nservices:\n  appwrite:\n    image: appwrite/appwrite:latest\n    ports:\n      - \"8013:80\"\n    volumes:\n      - appwrite_data:/storage\n    environment:\n      - _APP_ENV=production\n    restart: unless-stopped\n\nvolumes:\n  appwrite_data:",
+      "category": "Development",
+      "icon": "mdi:api"
+    },
+    {
+      "name": "Strapi",
+      "description": "Headless CMS",
+      "content": "version: '3'\nservices:\n  strapi:\n    image: strapi/strapi:latest\n    ports:\n      - \"8014:1337\"\n    volumes:\n      - strapi_data:/srv/app\n    environment:\n      - DATABASE_CLIENT=sqlite\n    restart: unless-stopped\n\nvolumes:\n  strapi_data:",
+      "category": "CMS",
+      "icon": "mdi:content-save"
+    },
+    {
+      "name": "Umami",
+      "description": "Analityka internetowa",
+      "content": "version: '3'\nservices:\n  umami:\n    image: ghcr.io/umami-software/umami:latest\n    ports:\n      - \"8015:3000\"\n    environment:\n      - DATABASE_URL=postgres://umami:umami@umami_db:5432/umami\n    depends_on:\n      - umami_db\n    restart: unless-stopped\n\n  umami_db:\n    image: postgres:12-alpine\n    environment:\n      - POSTGRES_DB=umami\n      - POSTGRES_USER=umami\n      - POSTGRES_PASSWORD=umami\n    volumes:\n      - umami_db_data:/var/lib/postgresql/data\n    restart: unless-stopped\n\nvolumes:\n  umami_db_data:",
+      "category": "Analytics",
+      "icon": "mdi:chart-box"
+    },
+    {
+      "name": "Focalboard",
+      "description": "Alternatywa dla Trello",
+      "content": "version: '3'\nservices:\n  focalboard:\n    image: mattermost/focalboard:latest\n    ports:\n      - \"8016:8000\"\n    volumes:\n      - focalboard_data:/opt/focalboard/data\n    restart: unless-stopped\n\nvolumes:\n  focalboard_data:",
+      "category": "Productivity",
+      "icon": "mdi:view-kanban"
+    },
+    {
+      "name": "Vault",
+      "description": "Menadżer tajnych danych",
+      "content": "version: '3'\nservices:\n  vault:\n    image: vault:latest\n    ports:\n      - \"8200:8200\"\n    volumes:\n      - vault_data:/vault/file\n    environment:\n      - VAULT_DEV_ROOT_TOKEN_ID=myroot\n    cap_add:\n      - IPC_LOCK\n    restart: unless-stopped\n\nvolumes:\n  vault_data:",
+      "category": "Security",
+      "icon": "mdi:lock-smart"
+    },
+    {
+      "name": "Keycloak",
+      "description": "System zarządzania tożsamością",
+      "content": "version: '3'\nservices:\n  keycloak:\n    image: quay.io/keycloak/keycloak:latest\n    ports:\n      - \"8088:8080\"\n    environment:\n      - KEYCLOAK_ADMIN=admin\n      - KEYCLOAK_ADMIN_PASSWORD=admin\n    volumes:\n      - keycloak_data:/opt/keycloak/data\n    restart: unless-stopped\n\nvolumes:\n  keycloak_data:",
+      "category": "Security",
+      "icon": "mdi:key-chain-variant"
+    },
+    {
+      "name": "Grafana Loki",
+      "description": "System logów",
+      "content": "version: '3'\nservices:\n  loki:\n    image: grafana/loki:latest\n    ports:\n      - \"3100:3100\"\n    volumes:\n      - loki_data:/loki\n    restart: unless-stopped\n\nvolumes:\n  loki_data:",
+      "category": "Monitoring",
+      "icon": "mdi:file-document"
+    },
+    {
+      "name": "Grafana Tempo",
+      "description": "System śledzenia rozproszonego",
+      "content": "version: '3'\nservices:\n  tempo:\n    image: grafana/tempo:latest\n    ports:\n      - \"3200:3200\"\n    volumes:\n      - tempo_data:/tmp/tempo\n    restart: unless-stopped\n\nvolumes:\n  tempo_data:",
+      "category": "Monitoring",
+      "icon": "mdi:chart-timeline"
+    },
+    {
+      "name": "Outline",
+      "description": "Wiki dla zespołów",
+      "content": "version: '3'\nservices:\n  outline:\n    image: outlinewiki/outline:latest\n    ports:\n      - \"8017:3000\"\n    volumes:\n      - outline_data:/var/lib/outline\n    environment:\n      - DATABASE_URL=postgres://outline:outline@outline_db:5432/outline\n    depends_on:\n      - outline_db\n    restart: unless-stopped\n\n  outline_db:\n    image: postgres:13-alpine\n    environment:\n      - POSTGRES_USER=outline\n      - POSTGRES_PASSWORD=outline\n      - POSTGRES_DB=outline\n    volumes:\n      - outline_db_data:/var/lib/postgresql/data\n    restart: unless-stopped\n\nvolumes:\n  outline_data:\n  outline_db_data:",
+      "category": "Productivity",
+      "icon": "mdi:text-box-multiple"
+    },
+    {
+      "name": "Mattermost",
+      "description": "Alternatywa dla Slacka",
+      "content": "version: '3'\nservices:\n  mattermost:\n    image: mattermost/mattermost-team-edition:latest\n    ports:\n      - \"8018:8065\"\n    volumes:\n      - mattermost_data:/mattermost/data\n    restart: unless-stopped\n\nvolumes:\n  mattermost_data:",
+      "category": "Communication",
+      "icon": "mdi:message-text"
+    },
+    {
+      "name": "Rocket.Chat",
+      "description": "Inna alternatywa dla Slacka",
+      "content": "version: '3'\nservices:\n  rocketchat:\n    image: rocket.chat:latest\n    ports:\n      - \"8019:3000\"\n    volumes:\n      - rocketchat_data:/app/uploads\n    environment:\n      - MONGO_URL=mongodb://rocketchat_db:27017/rocketchat\n    depends_on:\n      - rocketchat_db\n    restart: unless-stopped\n\n  rocketchat_db:\n    image: mongo:4.0\n    volumes:\n      - rocketchat_db_data:/data/db\n    restart: unless-stopped\n\nvolumes:\n  rocketchat_data:\n  rocketchat_db_data:",
+      "category": "Communication",
+      "icon": "mdi:chat"
+    },
+    {
+      "name": "Discourse",
+      "description": "Platforma dyskusyjna",
+      "content": "version: '3'\nservices:\n  discourse:\n    image: bitnami/discourse:latest\n    ports:\n      - \"8020:3000\"\n    volumes:\n      - discourse_data:/bitnami/discourse\n    environment:\n      - POSTGRESQL_HOST=discourse_db\n    depends_on:\n      - discourse_db\n    restart: unless-stopped\n\n  discourse_db:\n    image: bitnami/postgresql:latest\n    volumes:\n      - discourse_db_data:/bitnami/postgresql\n    restart: unless-stopped\n\nvolumes:\n  discourse_data:\n  discourse_db_data:",
+      "category": "Communication",
+      "icon": "mdi:forum"
+    },
+    {
+      "name": "Peertube",
+      "description": "Alternatywa dla YouTube",
+      "content": "version: '3'\nservices:\n  peertube:\n    image: chocobozzz/peertube:latest\n    ports:\n      - \"8021:9000\"\n    volumes:\n      - peertube_data:/data\n    restart: unless-stopped\n\nvolumes:\n  peertube_data:",
+      "category": "Media",
+      "icon": "mdi:video"
     }
   ]
 }
