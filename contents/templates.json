@@ -503,6 +503,181 @@
       "content": "version: '3'\nservices:\n  peertube:\n    image: chocobozzz/peertube:latest\n    ports:\n      - \"8021:9000\"\n    volumes:\n      - peertube_data:/data\n    restart: unless-stopped\n\nvolumes:\n  peertube_data:",
       "category": "Media",
       "icon": "mdi:video"
+    },
+    {
+      "name": "Transmission with OpenVPN",
+      "description": "Klient torrent z wbudowanym klientem VPN",
+      "content": "version: '3'\nservices:\n  transmission:\n    image: haugene/transmission-openvpn:latest\n    cap_add:\n      - NET_ADMIN\n    ports:\n      - \"9091:9091\"\n      - \"51413:51413\"\n      - \"51413:51413/udp\"\n    volumes:\n      - transmission_data:/data\n      - /path/to/downloads:/downloads\n      - ./openvpn:/etc/openvpn/custom\n    environment:\n      - OPENVPN_PROVIDER=PIA\n      - OPENVPN_CONFIG=netherlands\n      - OPENVPN_USERNAME=user\n      - OPENVPN_PASSWORD=pass\n      - LOCAL_NETWORK=192.168.1.0/24\n    restart: unless-stopped\n\nvolumes:\n  transmission_data:",
+      "category": "Download",
+      "icon": "mdi:transmission-tower"
+    },
+    {
+      "name": "Deluge with VPN",
+      "description": "Lekki klient torrent z obsługą VPN",
+      "content": "version: '3'\nservices:\n  deluge:\n    image: binhex/arch-delugevpn:latest\n    ports:\n      - \"8112:8112\"\n      - \"58846:58846\"\n      - \"58946:58946\"\n      - \"58946:58946/udp\"\n    volumes:\n      - deluge_config:/config\n      - /path/to/downloads:/downloads\n    environment:\n      - VPN_ENABLED=yes\n      - VPN_USER=username\n      - VPN_PASS=password\n      - VPN_PROV=custom\n    cap_add:\n      - NET_ADMIN\n    restart: unless-stopped\n\nvolumes:\n  deluge_config:",
+      "category": "Download",
+      "icon": "mdi:download-network"
+    },
+    {
+      "name": "ruTorrent + Flood",
+      "description": "Zaawansowany interfejs webowy dla rTorrent",
+      "content": "version: '3'\nservices:\n  rtorrent:\n    image: crummy/rtorrent-flood:latest\n    ports:\n      - \"3000:3000\"\n      - \"5000:5000\"\n      - \"51413:51413\"\n      - \"6881:6881/udp\"\n    volumes:\n      - rtorrent_data:/data\n      - /path/to/downloads:/downloads\n    restart: unless-stopped\n\nvolumes:\n  rtorrent_data:",
+      "category": "Download",
+      "icon": "mdi:download-box"
+    },
+    {
+      "name": "Jackett",
+      "description": "Mostek API dla publicznych i prywatnych trackerów",
+      "content": "version: '3'\nservices:\n  jackett:\n    image: linuxserver/jackett:latest\n    ports:\n      - \"9117:9117\"\n    volumes:\n      - jackett_data:/config\n      - /path/to/downloads:/downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  jackett_data:",
+      "category": "Download",
+      "icon": "mdi:download-search"
+    },
+    {
+      "name": "NZBGet",
+      "description": "Klient Usenet zoptymalizowany pod kątem wydajności",
+      "content": "version: '3'\nservices:\n  nzbget:\n    image: linuxserver/nzbget:latest\n    ports:\n      - \"6789:6789\"\n    volumes:\n      - nzbget_config:/config\n      - /path/to/downloads:/downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  nzbget_config:",
+      "category": "Download",
+      "icon": "mdi:download-multiple"
+    },
+    {
+      "name": "SABnzbd",
+      "description": "Zaawansowany klient Usenet",
+      "content": "version: '3'\nservices:\n  sabnzbd:\n    image: linuxserver/sabnzbd:latest\n    ports:\n      - \"8080:8080\"\n      - \"9090:9090\"\n    volumes:\n      - sabnzbd_config:/config\n      - /path/to/downloads:/downloads\n      - /path/to/incomplete:/incomplete-downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  sabnzbd_config:",
+      "category": "Download",
+      "icon": "mdi:download-network"
+    },
+    {
+      "name": "Lidarr",
+      "description": "Automatyzacja pobierania muzyki",
+      "content": "version: '3'\nservices:\n  lidarr:\n    image: linuxserver/lidarr:latest\n    ports:\n      - \"8686:8686\"\n    volumes:\n      - lidarr_config:/config\n      - /path/to/music:/music\n      - /path/to/downloads:/downloads\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  lidarr_config:",
+      "category": "Download",
+      "icon": "mdi:music-circle"
+    },
+    {
+      "name": "Bazarr",
+      "description": "Automatyczne pobieranie napisów",
+      "content": "version: '3'\nservices:\n  bazarr:\n    image: linuxserver/bazarr:latest\n    ports:\n      - \"6767:6767\"\n    volumes:\n      - bazarr_config:/config\n      - /path/to/movies:/movies\n      - /path/to/tv:/tv\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  bazarr_config:",
+      "category": "Media",
+      "icon": "mdi:subtitles"
+    },
+        {
+      "name": "Watchtower",
+      "description": "Automatyczna aktualizacja kontenerów Docker",
+      "content": "version: '3'\nservices:\n  watchtower:\n    image: containrrr/watchtower:latest\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n    environment:\n      - WATCHTOWER_CLEANUP=true\n      - WATCHTOWER_SCHEDULE=0 0 2 * * *\n    restart: unless-stopped",
+      "category": "Management",
+      "icon": "mdi:update"
+    },
+    {
+      "name": "Dozzle",
+      "description": "Interfejs webowy do logów Dockera w czasie rzeczywistym",
+      "content": "version: '3'\nservices:\n  dozzle:\n    image: amir20/dozzle:latest\n    ports:\n      - \"8888:8080\"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n    restart: unless-stopped",
+      "category": "Monitoring",
+      "icon": "mdi:console"
+    },
+    {
+      "name": "Netdata",
+      "description": "Zaawansowane monitorowanie w czasie rzeczywistym",
+      "content": "version: '3'\nservices:\n  netdata:\n    image: netdata/netdata:latest\n    ports:\n      - \"19999:19999\"\n    volumes:\n      - /etc/passwd:/host/etc/passwd:ro\n      - /etc/group:/host/etc/group:ro\n      - /proc:/host/proc:ro\n      - /sys:/host/sys:ro\n      - /var/run/docker.sock:/var/run/docker.sock:ro\n    cap_add:\n      - SYS_PTRACE\n    security_opt:\n      - apparmor:unconfined\n    restart: unless-stopped",
+      "category": "Monitoring",
+      "icon": "mdi:chart-multiline"
+    },
+    {
+      "name": "Nginx Proxy Manager",
+      "description": "Łatwe zarządzanie proxy i certyfikatami SSL",
+      "content": "version: '3'\nservices:\n  nginx-proxy-manager:\n    image: jc21/nginx-proxy-manager:latest\n    ports:\n      - \"80:80\"\n      - \"81:81\"\n      - \"443:443\"\n    volumes:\n      - npm_data:/data\n      - npm_letsencrypt:/etc/letsencrypt\n    restart: unless-stopped\n\nvolumes:\n  npm_data:\n  npm_letsencrypt:",
+      "category": "Networking",
+      "icon": "mdi:nginx"
+    },
+    {
+      "name": "Speedtest Tracker",
+      "description": "Monitorowanie prędkości łącza internetowego",
+      "content": "version: '3'\nservices:\n  speedtest:\n    image: lscr/linuxserver/speedtest-tracker:latest\n    ports:\n      - \"8765:80\"\n    volumes:\n      - speedtest_data:/config\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  speedtest_data:",
+      "category": "Monitoring",
+      "icon": "mdi:speedometer"
+    },
+    {
+      "name": "AdGuard Home",
+      "description": "Blokowanie reklam i ochrona prywatności",
+      "content": "version: '3'\nservices:\n  adguardhome:\n    image: adguard/adguardhome:latest\n    ports:\n      - \"53:53/tcp\"\n      - \"53:53/udp\"\n      - \"784:784/udp\"\n      - \"853:853/tcp\"\n      - \"3000:3000\"\n      - \"8088:80\"\n    volumes:\n      - adguard_work:/opt/adguardhome/work\n      - adguard_conf:/opt/adguardhome/conf\n    restart: unless-stopped\n\nvolumes:\n  adguard_work:\n  adguard_conf:",
+      "category": "Networking",
+      "icon": "mdi:shield-check"
+    },
+    {
+      "name": "Changedetection.io",
+      "description": "Monitorowanie zmian na stronach internetowych",
+      "content": "version: '3'\nservices:\n  changedetection:\n    image: ghcr.io/dgtlmoon/changedetection.io:latest\n    ports:\n      - \"5000:5000\"\n    volumes:\n      - changedetection_data:/datastore\n    environment:\n      - PUID=1000\n      - PGID=1000\n    restart: unless-stopped\n\nvolumes:\n  changedetection_data:",
+      "category": "Tools",
+      "icon": "mdi:web-check"
+    },
+    {
+      "name": "Paperless-ngx",
+      "description": "System zarządzania dokumentami",
+      "content": "version: '3'\nservices:\n  paperless:\n    image: ghcr.io/paperless-ngx/paperless-ngx:latest\n    ports:\n      - \"8000:8000\"\n    volumes:\n      - paperless_data:/usr/src/paperless/data\n      - paperless_media:/usr/src/paperless/media\n      - /path/to/consume:/usr/src/paperless/consume\n    environment:\n      - PAPERLESS_SECRET_KEY=your_secret_key\n      - PAPERLESS_TIME_ZONE=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  paperless_data:\n  paperless_media:",
+      "category": "Productivity",
+      "icon": "mdi:file-document"
+    },
+    {
+      "name": "Photoprism",
+      "description": "Serwer do zarządzania zdjęciami",
+      "content": "version: '3'\nservices:\n  photoprism:\n    image: photoprism/photoprism:latest\n    ports:\n      - \"2342:2342\"\n    volumes:\n      - photoprism_data:/photoprism/storage\n      - /path/to/photos:/photoprism/originals\n    environment:\n      - PHOTOPRISM_ADMIN_PASSWORD=yourpassword\n      - PHOTOPRISM_SITE_URL=http://localhost:2342/\n    restart: unless-stopped\n\nvolumes:\n  photoprism_data:",
+      "category": "Media",
+      "icon": "mdi:image"
+    },
+    {
+      "name": "Immich",
+      "description": "Alternatywa dla Google Photos",
+      "content": "version: '3'\nservices:\n  immich-server:\n    image: ghcr.io/immich-app/immich-server:latest\n    ports:\n      - \"2283:2283\"\n    volumes:\n      - immich_data:/usr/src/app/upload\n    environment:\n      - DB_HOSTNAME=immich-db\n      - DB_USERNAME=postgres\n      - DB_PASSWORD=postgres\n      - DB_DATABASE_NAME=immich\n      - REDIS_HOSTNAME=immich-redis\n    depends_on:\n      - immich-redis\n      - immich-db\n    restart: unless-stopped\n\n  immich-redis:\n    image: redis:alpine\n    restart: unless-stopped\n\n  immich-db:\n    image: tensorchord/pgvecto-rs:pg14-v0.2.0\n    environment:\n      - POSTGRES_PASSWORD=postgres\n      - POSTGRES_USER=postgres\n      - POSTGRES_DB=immich\n    volumes:\n      - immich_db_data:/var/lib/postgresql/data\n    restart: unless-stopped\n\nvolumes:\n  immich_data:\n  immich_db_data:",
+      "category": "Media",
+      "icon": "mdi:google-photos"
+    },
+    {
+      "name": "Syncthing",
+      "description": "Synchronizacja plików między urządzeniami",
+      "content": "version: '3'\nservices:\n  syncthing:\n    image: linuxserver/syncthing:latest\n    ports:\n      - \"8384:8384\"\n      - \"22000:22000/tcp\"\n      - \"22000:22000/udp\"\n      - \"21027:21027/udp\"\n    volumes:\n      - syncthing_config:/config\n      - /path/to/data:/data\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  syncthing_config:",
+      "category": "Storage",
+      "icon": "mdi:sync"
+    },
+    {
+      "name": "Duplicati",
+      "description": "Backup z szyfrowaniem",
+      "content": "version: '3'\nservices:\n  duplicati:\n    image: linuxserver/duplicati:latest\n    ports:\n      - \"8200:8200\"\n    volumes:\n      - duplicati_config:/config\n      - duplicati_backups:/backups\n      - /path/to/source:/source\n    environment:\n      - PUID=1000\n      - PGID=1000\n      - TZ=Europe/Warsaw\n    restart: unless-stopped\n\nvolumes:\n  duplicati_config:\n  duplicati_backups:",
+      "category": "Storage",
+      "icon": "mdi:backup-restore"
+    },
+    {
+      "name": "Vikunja",
+      "description": "Menadżer zadań",
+      "content": "version: '3'\nservices:\n  vikunja:\n    image: vikunja/vikunja:latest\n    ports:\n      - \"3456:80\"\n    volumes:\n      - vikunja_data:/app/vikunja/files\n    environment:\n      - VIKUNJA_DATABASE_HOST=vikunja_db\n      - VIKUNJA_DATABASE_DATABASE=vikunja\n      - VIKUNJA_DATABASE_USERNAME=vikunja\n      - VIKUNJA_DATABASE_PASSWORD=vikunja\n    depends_on:\n      - vikunja_db\n    restart: unless-stopped\n\n  vikunja_db:\n    image: postgres:13\n    environment:\n      - POSTGRES_USER=vikunja\n      - POSTGRES_PASSWORD=vikunja\n      - POSTGRES_DB=vikunja\n    volumes:\n      - vikunja_db_data:/var/lib/postgresql/data\n    restart: unless-stopped\n\nvolumes:\n  vikunja_data:\n  vikunja_db_data:",
+      "category": "Productivity",
+      "icon": "mdi:checkbox-marked"
+    },
+    {
+      "name": "Homer",
+      "description": "Bardzo prosty pulpit startowy",
+      "content": "version: '3'\nservices:\n  homer:\n    image: b4bz/homer:latest\n    ports:\n      - \"8085:8080\"\n    volumes:\n      - homer_data:/www/assets\n    restart: unless-stopped\n\nvolumes:\n  homer_data:",
+      "category": "Tools",
+      "icon": "mdi:home"
+    },
+    {
+      "name": "Pocketbase",
+      "description": "Backend w jednym pliku",
+      "content": "version: '3'\nservices:\n  pocketbase:\n    image: ghcr.io/muchobien/pocketbase:latest\n    ports:\n      - \"8090:8090\"\n    volumes:\n      - pocketbase_data:/pb_data\n      - pocketbase_public:/pb_public\n    restart: unless-stopped\n\nvolumes:\n  pocketbase_data:\n  pocketbase_public:",
+      "category": "Development",
+      "icon": "mdi:database-settings"
+    },
+    {
+      "name": "Directus",
+      "description": "Headless CMS",
+      "content": "version: '3'\nservices:\n  directus:\n    image: directus/directus:latest\n    ports:\n      - \"8055:8055\"\n    volumes:\n      - directus_data:/directus/uploads\n    environment:\n      - KEY=your-key\n      - SECRET=your-secret\n      - DB_CLIENT=sqlite3\n      - DB_FILENAME=/directus/data/data.db\n    restart: unless-stopped\n\nvolumes:\n  directus_data:",
+      "category": "CMS",
+      "icon": "mdi:content-paste"
+    },
+    {
+      "name": "Plausible Analytics",
+      "description": "Prosta i prywatna analityka",
+      "content": "version: '3'\nservices:\n  plausible:\n    image: plausible/analytics:latest\n    ports:\n      - \"8000:8000\"\n    environment:\n      - BASE_URL=http://localhost:8000\n      - SECRET_KEY_BASE=your-secret-key\n    restart: unless-stopped",
+      "category": "Analytics",
+      "icon": "mdi:chart-bell-curve"
     }
   ]
 }
